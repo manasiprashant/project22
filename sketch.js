@@ -1,64 +1,28 @@
-var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
-var packageBody,ground
-const Engine = Matter.Engine;
-const World = Matter.World;
-const Bodies = Matter.Bodies;
-const Body = Matter.Body;
-
-function preload()
-{
-	helicopterIMG=loadImage("helicopter.png")
-	packageIMG=loadImage("package.png")
-}
-
+var car,wall,speed,weight
 function setup() {
-	createCanvas(800, 700);
-	rectMode(CENTER);
-	
-
-	packageSprite=createSprite(width/2, 80, 10,10);
-	packageSprite.addImage(packageIMG)
-	packageSprite.scale=0.2
-
-	helicopterSprite=createSprite(width/2, 200, 10,10);
-	helicopterSprite.addImage(helicopterIMG)
-	helicopterSprite.scale=0.6
-
-	groundSprite=createSprite(width/2, height-35, width,10);
-	groundSprite.shapeColor=color(255)
-
-
-	engine = Engine.create();
-	world = engine.world;
-
-	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.5, isStatic:true});
-	World.add(world, packageBody);
-	
-
-	//Create a Ground
-	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
- 	World.add(world, ground);
-
-
-	Engine.run(engine);
-  
+  createCanvas(800,400);
+  speed = random(55,90)
+  weight = random(400,1500)
+car=  createSprite(50, 200, 50, 50);
+wall=createsprite?(1500,200,width,height/2)
+car.velocityX=speed
 }
-
 
 function draw() {
-  rectMode(CENTER);
-  background(0);
-  packageSprite.x= packageBody.position.x 
-  packageSprite.y= packageBody.position.y 
+  background(255,255,255); 
+  if(wall.x-car.x<car.width/2+wall.width/2) 
+  {
+    car.velocityx=0
+    var deformation = 0.5*weight*speed*speed/22500;
+    if(deformation>180){
+      car.shapeColor="red"
+    }
+    if(deformation<180&&deformation>100){
+      car.shapeColor="yellow"
+    }
+
+    if(deformation<100){
+      car.shapeColor="green"
+    }
   drawSprites();
- 
 }
-
-function keyPressed() {
- if (keyCode === DOWN_ARROW) {
-    // Look at the hints in the document and understand how to make the package body fall only on press of the Down arrow key.
- Matter.Body.setStatic(packageBody,false)   
-  }
-}
-
-
